@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
     // Static list of users, acting as a database
     private static ArrayList<User> users = new ArrayList<>();
 
     // Mock authentication service that always returns the first user when log in, and does nothing when sign up
-    private static IAuthenticationService authService = new IAuthenticationService() {
+    private static IAuthenticationService authService = new AuthenticationService(users) {
         @Override
         public User signUp(String username, String password) {
             return null;
@@ -87,7 +90,15 @@ public class Main {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         User user = authService.signUp(username, password);
-        // TODO Later: Shows a message based on the result
+        String userFree = "User " + user + " has been created successfully!";
+        String userTaken = "The username is already taken!";
+        System.out.println(((user != null) ? userFree : userTaken));
+
+        /*
+        if (user != null){
+            System.out.println("User " + user + " has been created successfully!");
+        }else System.out.println("The username is already taken!");
+        */
     }
 
     /**

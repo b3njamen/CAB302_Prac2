@@ -8,10 +8,9 @@ public class AuthenticationService implements IAuthenticationService {
         this.users.add(new User("test", "test"));
     }
 
-        @Override
         public User signUp(String username, String password) {
             for (User user : users) {
-                if (user.getUsername().equals(username)) {
+                if ((user.getUsername().equals(username))) {
                     return null;
                 }
             }
@@ -20,7 +19,6 @@ public class AuthenticationService implements IAuthenticationService {
             return user;
         }
 
-        @Override
         public User logIn(String username, String password) {
             for (User user :users){
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
@@ -29,9 +27,6 @@ public class AuthenticationService implements IAuthenticationService {
             }
             return null;
         }
-
-
-
 
     // TODO Now: Add a constructor to initialize the users list with the default user
 

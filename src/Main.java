@@ -5,18 +5,8 @@ public class Main {
     // Static list of users, acting as a database
     private static ArrayList<User> users = new ArrayList<>();
 
-    // Mock authentication service that always returns the first user when log in, and does nothing when sign up
-    private static IAuthenticationService authService = new AuthenticationService(users) {
-        @Override
-        public User signUp(String username, String password) {
-            return null;
-        }
 
-        @Override
-        public User logIn(String username, String password) {
-            return users.get(0);
-        }
-    };
+    private static IAuthenticationService authService = new AuthenticationService(users) {};
     private static boolean isRunning = true;
 
     /**
@@ -76,8 +66,16 @@ public class Main {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         User user = authService.logIn(username, password);
-        System.out.println("Welcome, " + user.getUsername() + "!");
-        // TODO Later: Add the to-do list operations
+
+        if (user != null) {
+            System.out.println("Welcome, " + user.getUsername() + "!");
+            ToDoList todoList = new ToDoList(user);
+            todoList.run();
+        }else System.out.println("Invalid username or password!"); // wasn't part of the task but stops the app from crashing
+
+
+        // TODO Now: Create an instance of the ToDoList class with the logged-in user and call the run method
+
     }
 
     /**
@@ -90,13 +88,16 @@ public class Main {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         User user = authService.signUp(username, password);
-        String userFree = "User " + user + " has been created successfully!";
+
+
+        String userFree = "User " + username + " has been created successfully!";
         String userTaken = "The username is already taken!";
         System.out.println(((user != null) ? userFree : userTaken));
 
-        /*
-        if (user != null){
-            System.out.println("User " + user + " has been created successfully!");
+        /*  Does the same as above but less complex, I just wanted to test Javas ternary operators
+
+        if (user() != null){
+            System.out.println("User " + username + " has been created successfully!");
         }else System.out.println("The username is already taken!");
         */
     }
